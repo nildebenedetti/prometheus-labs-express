@@ -6,6 +6,6 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.get("/", categoriesController.index);
 
-categoriesRouter.post("/categorySlug", categoriesController.show);
+categoriesRouter.get("/:categorySlug", categoriesController.show);
 
 export default categoriesRouter;

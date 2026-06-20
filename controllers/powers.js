@@ -2,12 +2,12 @@ import connection from "../data/db.js";
 
 async function index(request, response) {
     const querySelect = `
-    SELECT name power_type, id
+    SELECT name, power_type, id
     FROM powers
     `;
 
     try {
-        const results = await connection.execute(querySelect);
+        const [results] = await connection.execute(querySelect);
         if (results.length === 0) {
             return response.status(404)
                 .json({
@@ -31,6 +31,8 @@ async function index(request, response) {
 
 async function show(request, response) {
     const { powerId } = request.params;
+    console.log(powerId);
+    
     const querySelect = `
             SELECT name, id, power_type
             FROM powers 

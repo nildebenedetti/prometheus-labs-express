@@ -30,7 +30,9 @@ async function index(request, response) {
 }
 
 async function show(request, response) {
-    const { categoriesSlug } = request.params;
+    const { categorySlug } = request.params;
+    console.log("slugcat: ", categorySlug);
+    
     const querySelect = `
             SELECT name, slug 
             FROM categories 
@@ -39,7 +41,7 @@ async function show(request, response) {
         `;
 
     try {
-        const [results] = await connection.execute(querySelect, [categoriesSlug]);
+        const [results] = await connection.execute(querySelect, [categorySlug]);
 
         if (results.length === 0) {
             return response.status(404)
