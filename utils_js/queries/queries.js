@@ -3,9 +3,17 @@ usiamo la sintassi */
 
 /*======== PRODUCTS ========*/
 
-querySelectAllProducts = `
-inserisci qui la query`;
+const querySelectAllProducts = `
+inserisci qui la query
+`;
 
-export {
-    querySelectAllProducts
+const querySelectProductBySlug = `
+inserisci qui la query
+`;
+
+const queries = {
+    querySelectAllProducts,
+    querySelectProductBySlug
 };
+
+export default queries;
