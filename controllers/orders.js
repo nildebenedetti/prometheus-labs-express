@@ -19,23 +19,27 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
-    const { id } = req.params;
+    const { orderId } = req.params;
+    console.log("id ordine: ", orderId);
+    
 
     try {
-        const [[order]] = await connection.execute(queryGetOrderById, [id]);
+        const [[order]] = await connection.execute(queryGetOrderById, [orderId]);
+        console.log(order);
+        
 
         if (!order) {
             return res.status(404).json({ error: "Ordine non trovato" });
         }
 
-        const [items] = await connection.execute(queryGetOrderItems, [id]);
+        const [items] = await connection.execute(queryGetOrderItems, [orderId]);
 
         res.json({
             ...order,
             items
         });
     } catch (error) {
-        console.error("Errore nel recupero dell'ordine:", error);
+        console.error("Errore nel recupero dell'ordine:", error.message);
         res.status(500).json({ error: "Errore nel server" });
     }
 };
@@ -90,15 +94,15 @@ const store = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-    const { id } = req.params;
+    const { orderId } = req.params;
 
     const conn = await connection.getConnection();
 
     try {
         await conn.beginTransaction();
 
-        await conn.execute(`DELETE FROM order_products WHERE order_id = ?`, [id]);
-        const [result] = await conn.execute(`DELETE FROM orders WHERE id = ?`, [id]);
+        await conn.execute(`DELETE FROM order_products WHERE order_id = ?`, [orderId]);
+        const [result] = await conn.execute(`DELETE FROM orders WHERE id = ?`, [orderId]);
 
         await conn.commit();
 
