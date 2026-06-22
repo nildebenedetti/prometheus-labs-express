@@ -1,14 +1,11 @@
 import connection from "../data/db.js";
 import { validateSlug } from "../utils_js/validation/validateSlug.js";
+import queries from "../utils_js/queries/queries.js";
 
 async function index(request, response) {
-    const querySelect = `
-        SELECT name, slug 
-        FROM categories`
-        ;
 
     try {
-        const [results] = await connection.execute(querySelect);
+        const [results] = await connection.execute(queries.querySelectAllCategories);
         if (results.length === 0) {
             return response.status(404)
                 .json({
@@ -33,16 +30,10 @@ async function index(request, response) {
 async function show(request, response) {
     const slug = request.categorySlug;
     console.log("slugcat val: ", validatedCatSlug);
-    
-    const querySelect = `
-            SELECT name, slug 
-            FROM categories 
-            WHERE slug = ?
-            LIMIT 1
-        `;
 
     try {
-        const [results] = await connection.execute(querySelect, [slug]);
+
+        const [results] = await connection.execute(queries.querySelectCategoriesBySlug, [categorySlug]);
 
         if (results.length === 0) {
             return response.status(404)
