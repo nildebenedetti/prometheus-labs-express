@@ -29,11 +29,11 @@ async function index(request, response) {
 
 async function show(request, response) {
     const slug = request.categorySlug;
-    console.log("slugcat val: ", validatedCatSlug);
+    console.log("slugcat val: ", slug);
 
     try {
 
-        const [results] = await connection.execute(queries.querySelectCategoriesBySlug, [categorySlug]);
+        const [results] = await connection.execute(queries.querySelectCategoriesBySlug, [slug]);
 
         if (results.length === 0) {
             return response.status(404)

@@ -4,6 +4,8 @@ import { validateSlug } from "../utils_js/validation/validateSlug.js";
 export async function checkProductSlugExists(request, response, next) {
     const { slug: productSlug } = request.params;
     const validatedSlug = validateSlug(productSlug);
+    console.log("products slug check: ", productSlug);
+    
 
     if (validatedSlug === null) {
         return response.status(400).json({
