@@ -28,11 +28,11 @@ async function index(request, response) {
 }
 
 async function show(request, response) {
-    const { categorySlug } = request.params;
-    const validatedCatSlug = validateSlug(categorySlug);
+    const slug = request.categorySlug;
     console.log("slugcat val: ", validatedCatSlug);
 
     try {
+
         const [results] = await connection.execute(queries.querySelectCategoriesBySlug, [categorySlug]);
 
         if (results.length === 0) {
