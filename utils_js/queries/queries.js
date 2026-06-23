@@ -37,7 +37,7 @@ join category_product cp on p.id = cp.product_id
 join categories c on c.id = cp.category_id
 join powers po on p.power_id = po.id
 order by p.created_at DESC
-limit 5
+limit 10
 `;
 
 /*======== CATEGORIES ========*/
