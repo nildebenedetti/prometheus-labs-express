@@ -55,7 +55,7 @@ const store = async (req, res) => {
         items
     } = req.body;
 
-    const conn = await connection.getConnection();
+    const conn = connection;
 
     try {
         await conn.beginTransaction();
@@ -88,8 +88,6 @@ const store = async (req, res) => {
         await conn.rollback();
         console.error("Errore nella creazione dell'ordine:", error);
         res.status(500).json({ error: "Errore nel server" });
-    } finally {
-        conn.release();
     }
 };
 
