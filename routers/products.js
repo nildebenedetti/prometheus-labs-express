@@ -7,7 +7,7 @@ const productsRouter = express.Router();
 productsRouter.get('/', productsController.index);
 
 // endpoint custom per latest 5 products
-productsRouter.get('/latest', productsController.showLatestFive);
+productsRouter.get('/latest', productsController.showLatestTen);
 
 
 productsRouter.get('/:slug', [checkProductSlugExists ,productsController.show]);
