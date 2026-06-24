@@ -52,7 +52,9 @@ join powers po on p.power_id = po.id
 where c.name = 'bestseller'
 `;
 
-// restituisce tutti i dati dei prodotti associati ad una data categoria
+/* ======= QUERY PRODUCTS PER FILTER ======= */
+
+// restituisce tutti i dati dei prodotti associati ad una data categoria (novamorph, DailySUPer, PowerSHOT, bestseller)
 const querySelectProductsByCategoryName = `
 select p.id, p.name, p.slug, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt, p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
 from products p
@@ -60,8 +62,40 @@ join category_product cp on p.id = cp.product_id
 join categories c on c.id = cp.category_id
 join powers po on p.power_id = po.id
 where c.name = ?;
-
 `;
+
+// restituisce tutti i dati dei prodotti associati ad un power type (physical, psychic)
+const querySelectProductByPowerType = `
+select p.id, p.name, p.slug, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt, p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
+from products p
+join category_product cp on p.id = cp.product_id
+join categories c on c.id = cp.category_id
+join powers po on p.power_id = po.id
+where po.power_type = ?;
+`;
+
+/* ======= QUERY PRODUCTS PER SEARCHSTRING ======= */
+
+// consente di trovare prodotti dove ? è contenuto (anche in mezzo alla 
+// parola, non solo inizio e fine) in uno dei seguenti elementi:
+// product name, short description, marketing description
+// category name (nome linea o bestseller)
+// power name 
+// power type
+
+const querySelectProductBySearchString = `
+select p.id, p.name, p.slug, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt, p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
+from products p
+join category_product cp on p.id = cp.product_id
+join categories c on c.id = cp.category_id
+join powers po on p.power_id = po.id
+where po.power_type like ?
+or p.name like ?
+or p.short_description like ?
+or p.marketing_description like ?
+or p.name like ?;
+`;
+
 
 /*======== CATEGORIES ========*/
 
