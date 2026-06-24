@@ -92,7 +92,7 @@ where po.power_type like ?
 or p.name like ?
 or p.short_description like ?
 or p.marketing_description like ?
-or p.name like ?;
+or po.name like ?;
 `;
 
 
