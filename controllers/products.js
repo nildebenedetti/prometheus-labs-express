@@ -157,7 +157,8 @@ async function showProductsFiltererdByCatName(request, response) {
 async function showProductsFiltererdByPowerType(request, response) {
 
     try {
-        const [rows] = await connection.execute(queries.querySelectProductByPowerType);
+        const  { powerType } = request.params;
+        const [rows] = await connection.execute(queries.querySelectProductByPowerType, [powerType]);
         const groupedRows = utils.groupBy(rows);
     
         if (!rows || rows.length === 0) {
@@ -183,13 +184,14 @@ async function showProductsFiltererdByPowerType(request, response) {
     }
 }
 
-async function SelectProductBySearchString(request, response) {
+async function ShowProductsBySearchString(request, response) {
 
     try {
-        const [rows] = await connection.execute(queries.querySelectProductsByCategoryName);
-        const groupedRows = utils.groupBy(rows);
         const userInput = quest.params.search();
         const searchParamFormatted = `%${userInput}%`;
+        const [rows] = await connection.execute(queries.querySelectProductBySearchString, [searchParamFormatted]);
+        const groupedRows = utils.groupBy(rows);
+
     
         if (!rows || rows.length === 0) {
             return response.status(404)
@@ -215,7 +217,7 @@ async function SelectProductBySearchString(request, response) {
 }
 
 const productsController = {
-    index, show, showLatestTen, showBestsellers, showProductsFiltererdByCatName,showProductsFiltererdByPowerType
+    index, show, showLatestTen, showBestsellers, showProductsFiltererdByCatName,showProductsFiltererdByPowerType, ShowProductsBySearchString 
 };
 
 export default productsController;
