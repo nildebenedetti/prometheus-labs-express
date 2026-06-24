@@ -124,8 +124,98 @@ async function showBestsellers(request, response) {
     }
 }
 
+async function showProductsFiltererdByCatName(request, response) {
+
+    try {
+        const  { category } = request.params;
+        const [rows] = await connection.execute(queries.querySelectProductsByCategoryName,[category]);
+        const groupedRows = utils.groupBy(rows);
+    
+        if (!rows || rows.length === 0) {
+            return response.status(404)
+                .json({
+                    results: null,
+                    error: 'No Product available in the database'
+                });
+        }
+        return response.status(200)
+            .json({
+                results: groupedRows,
+                error: null
+            });
+    } catch (error) {
+        console.error('errore durante il recupero dei prodotti:', error);
+
+        return response.status(500)
+            .json({
+                results: null,
+                error: 'Internal Server Error when looking for Products'
+            });
+    }
+}
+
+async function showProductsFiltererdByPowerType(request, response) {
+
+    try {
+        const [rows] = await connection.execute(queries.querySelectProductByPowerType);
+        const groupedRows = utils.groupBy(rows);
+    
+        if (!rows || rows.length === 0) {
+            return response.status(404)
+                .json({
+                    results: null,
+                    error: 'No Product available in the database'
+                });
+        }
+        return response.status(200)
+            .json({
+                results: groupedRows,
+                error: null
+            });
+    } catch (error) {
+        console.error('errore durante il recupero dei prodotti:', error);
+
+        return response.status(500)
+            .json({
+                results: null,
+                error: 'Internal Server Error when looking for Products'
+            });
+    }
+}
+
+async function SelectProductBySearchString(request, response) {
+
+    try {
+        const [rows] = await connection.execute(queries.querySelectProductsByCategoryName);
+        const groupedRows = utils.groupBy(rows);
+        const userInput = quest.params.search();
+        const searchParamFormatted = `%${userInput}%`;
+    
+        if (!rows || rows.length === 0) {
+            return response.status(404)
+                .json({
+                    results: null,
+                    error: 'No Product available in the database'
+                });
+        }
+        return response.status(200)
+            .json({
+                results: groupedRows,
+                error: null
+            });
+    } catch (error) {
+        console.error('errore durante il recupero dei prodotti:', error);
+
+        return response.status(500)
+            .json({
+                results: null,
+                error: 'Internal Server Error when looking for Products'
+            });
+    }
+}
+
 const productsController = {
-    index, show, showLatestTen, showBestsellers
+    index, show, showLatestTen, showBestsellers, showProductsFiltererdByCatName,showProductsFiltererdByPowerType
 };
 
 export default productsController;
