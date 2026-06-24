@@ -12,6 +12,12 @@ productsRouter.get('/latest', productsController.showLatestTen);
 // endpoint custom per all bestsellers
 productsRouter.get('/bestsellers', productsController.showBestsellers);
 
+// endpoint per parametro filtro category
+productsRouter.get('/category/:category', productsController.showProductsFiltererdByCatName);
+
+// endpoint per parametro filtro powertype
+productsRouter.get('/power/:power', productsController.showProductsFiltererdByPowerType);
+
 
 productsRouter.get('/:slug', [checkProductSlugExists ,productsController.show]);
 
