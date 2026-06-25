@@ -39,7 +39,7 @@ async function show(request, response) {
             return response.status(404)
                 .json({
                     result: null,
-                    error: `Category with slug "${slug} not found`
+                    error: `Category with slug "${slug}" not found`
                 });
         }
         return response.status(200)
@@ -51,7 +51,7 @@ async function show(request, response) {
         return response.status(500)
             .json({
                 result: null,
-                error: `Internal Server Error when looking for Category with slug "${slug}`
+                error: `Internal Server Error when looking for Category with slug "${slug}"`
             });
     }
 }
