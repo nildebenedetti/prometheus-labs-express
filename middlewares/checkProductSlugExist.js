@@ -13,7 +13,7 @@ export async function checkProductSlugExists(request, response, next) {
     }
 
     try {
-        const sql = `SELECT id, name, slug FROM products WHERE slug = ? LIMIT 1`;
+        const sql = `SELECT id, name, slug FROM products WHERE slug = ?`;
         const [rows] = await connection.query(sql, [validatedSlug]);
         if (rows.length === 0) {
             return response.status(404).json({
