@@ -5,7 +5,6 @@ import { validateSlug } from "../utils_js/validation/validateSlug.js";
 export async function checkCategorySlugExists(request, response, next) {
     const { categorySlug } = request.params;
     const validatedCatSlug = validateSlug(categorySlug);
-    console.log("category sluh: ", categorySlug);
     
 
     if (validatedCatSlug === null) {
