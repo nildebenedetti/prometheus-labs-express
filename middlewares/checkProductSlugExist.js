@@ -1,5 +1,6 @@
 import connection from "../data/db.js";
 import { validateSlug } from "../utils_js/validation/validateSlug.js";
+import queries from "../utils_js/queries/queries.js";
 
 export async function checkProductSlugExists(request, response, next) {
     const { slug: productSlug } = request.params;
@@ -13,8 +14,7 @@ export async function checkProductSlugExists(request, response, next) {
     }
 
     try {
-        const sql = `SELECT id, name, slug FROM products WHERE slug = ?`;
-        const [rows] = await connection.query(sql, [validatedSlug]);
+        const [rows] = await connection.query(queries.queryCheckIfProductBySlug, [validatedSlug]);
         if (rows.length === 0) {
             return response.status(404).json({
                 error: `Product with sug "${slug}" not found`,
