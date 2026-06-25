@@ -1,11 +1,10 @@
 import connection from "../data/db.js";
 import { validateSlug } from "../utils_js/validation/validateSlug.js";
+import queries from "../utils_js/queries/queries.js";
 
 export async function checkProductSlugExists(request, response, next) {
     const { slug: productSlug } = request.params;
-    const validatedSlug = validateSlug(productSlug);
-    console.log("products slug check: ", productSlug);
-    
+    const validatedSlug = validateSlug(productSlug);    
 
     if (validatedSlug === null) {
         return response.status(400).json({
@@ -15,11 +14,10 @@ export async function checkProductSlugExists(request, response, next) {
     }
 
     try {
-        const sql = `SELECT id, name, slug FROM products WHERE slug = ? LIMIT 1`;
-        const [rows] = await connection.query(sql, [validatedSlug]);
+        const [rows] = await connection.query(queries.queryCheckIfProductBySlug, [validatedSlug]);
         if (rows.length === 0) {
             return response.status(404).json({
-                error: `Product with sug "${slug}" not found`,
+                error: `Product with slug "${slug}" not found`,
                 result: null
             });
         }

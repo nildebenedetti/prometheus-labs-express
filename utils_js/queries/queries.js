@@ -19,6 +19,9 @@ join powers po on p.power_id = po.id
 where p.slug = ?;
 `;
 
+// per controllare se product con slug = ? esiste a DB
+const queryCheckIfProductBySlug = `SELECT name, slug FROM products WHERE slug = ?`;
+
 
 /* seleziona gli ultimi 10 prodotti per data di release (latest 5)
 ==== NILDE SAYS:===
@@ -157,6 +160,7 @@ const queries = {
     // Products
     querySelectAllProducts,
     querySelectProductBySlug,
+    queryCheckIfProductBySlug,
     querySelectLatestTenProducts,
     querySelectBestsellerProducts,
     querySelectProductsByCategoryName,
