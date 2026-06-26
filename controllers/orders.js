@@ -21,7 +21,7 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
     const { orderId } = req.params;
-    console.log("id ordine: ", orderId);
+
 
 
     try {
