@@ -61,6 +61,7 @@ join powers po on p.power_id = po.id
 where c.name = 'bestseller'
 `;
 
+
 /* ======= QUERY PRODUCTS PER FILTER ======= */
 
 // restituisce tutti i dati dei prodotti associati ad una data categoria (novamorph, DailySUPer, PowerSHOT, bestseller)
