@@ -17,11 +17,12 @@ const transporter = nodemailer.createTransport({
 const sendUserEmail = async (orderData) => {
     const tableRows = utils.generateTableRows(orderData.validatedItems);
 
-    await transporter.sendMail({
-        from: `"Prometheus Labs" <${process.env.MAIL_USER}>`,
-        to: orderData.guest_email,
-        subject: 'Thank you for your order! - Prometheus Labs',
-        html: `
+    try {
+        await transporter.sendMail({
+            from: `"Prometheus Labs" <${process.env.MAIL_USER}>`,
+            to: orderData.guest_email,
+            subject: 'Thank you for your order! - Prometheus Labs',
+            html: `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #2d3748; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
             
             <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #edf2f7;">
@@ -101,18 +102,22 @@ const sendUserEmail = async (orderData) => {
             </div>
         </div>
         `
-    });
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 // Funzione per inviare email all'admmin dopo l'ordine
 const sendAdminEmail = async (orderData) => {
     const tableRows = utils.generateTableRows(orderData.validatedItems);
-    
-    await transporter.sendMail({
-        from: `"Prometheus Labs" <${process.env.MAIL_USER}>`,
-        to: process.env.ADMIN_EMAIL,
-        subject: 'New order received! - Prometheus Labs',
-        html: `
+    try {
+        await transporter.sendMail({
+            from: `"Prometheus Labs" <${process.env.MAIL_USER}>`,
+            to: process.env.ADMIN_EMAIL,
+            subject: 'New order received! - Prometheus Labs',
+            html: `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; color: #2d3748; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
             
             <div style="text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #edf2f7;">
@@ -191,7 +196,10 @@ const sendAdminEmail = async (orderData) => {
             </div>
         </div>
         `
-    });
+        });
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 export { transporter, sendUserEmail, sendAdminEmail };
