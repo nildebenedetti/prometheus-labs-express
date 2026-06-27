@@ -49,9 +49,32 @@ order by p.created_at DESC
 limit 10
 `;
 
-// mostra i primi 10  bestseller in ordine di id
+// mostra i primi 10  bestseller in ordine di numero di pezzi ordinati
+// select soliti dertttagli vari di prodotto
+// da prodotti
+// 
 
 const querySelectBestsellerProducts = `
+select p.id, p.name, p.slug, SUM(op.quantity) as total_quantity, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt,
+p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
+from products p
+left join order_products op on op.product_id = p.id
+left join powers po on p.power_id = po.id
+left join category_product cp on p.id = cp.product_id
+left join categories c on c.id = cp.category_id
+group by p.id, p.name, p.slug, po.name, po.power_type, 
+    p.short_description, p.marketing_description, 
+    c.name, p.price_full, p.ingredients, 
+    p.created_at, p.updated_at,
+    p.image_main_url, p.image_lifestyle, p.image_ksp
+order by total_quantity desc 
+limit 15;
+`;
+
+/* NON CANCELLARE - È GIA PRONTA PER POST MIGRAZIONE
+ * VA SOLO SOSTITUITO 'BESTSELLERS' CON 'ICONIC'
+ * 
+ * const querySelectBestsellerProducts = `
 select p.id, p.name, p.slug, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt,
 p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
 from products p
@@ -60,6 +83,7 @@ join categories c on c.id = cp.category_id
 join powers po on p.power_id = po.id
 where c.name = 'bestseller'
 `;
+ */
 
 
 /* ======= QUERY PRODUCTS PER FILTER ======= */
