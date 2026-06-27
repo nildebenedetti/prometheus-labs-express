@@ -61,6 +61,19 @@ join powers po on p.power_id = po.id
 where c.name = 'bestseller'
 `;
 
+/* NON CANCELLARE - È GIA PRONTA PER POST MIGRAZIONE
+ * VA SOLO SOSTITUITO 'BESTSELLERS' CON 'ICONIC'
+ * 
+ * const querySelectBestsellerProducts = `
+select p.id, p.name, p.slug, po.name as power, po.power_type, p.short_description as shortDescription, p.marketing_description as mktgDescription, c.name as category, p.price_full as price, p.ingredients, p.created_at as createdAt, p.updated_at as updatedAt,
+p.image_main_url as imgMain, p.image_lifestyle as imgLifestyle, p.image_ksp as imgKsp
+from products p
+join category_product cp on p.id = cp.product_id
+join categories c on c.id = cp.category_id
+join powers po on p.power_id = po.id
+where c.name = 'bestseller'
+`;
+ */
 
 /* ======= QUERY PRODUCTS PER FILTER ======= */
 
